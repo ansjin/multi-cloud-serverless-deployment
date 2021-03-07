@@ -1,0 +1,14 @@
+functions:
+  nodeinfo:
+    events:
+      - http: GET /nodeinfo
+    handler: handler.main
+    overwrite: true
+plugins:
+  - serverless-openwhisk
+provider:
+  ignore_certs: true
+  memory: 256
+  name: openwhisk
+  timeout: 60
+service: myservice

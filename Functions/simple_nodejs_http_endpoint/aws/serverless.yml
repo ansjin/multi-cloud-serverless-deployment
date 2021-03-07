@@ -1,0 +1,14 @@
+functions:
+  time:
+    events:
+    - http:
+        method: get
+        path: time
+    handler: handler.time
+provider:
+  memorySize: 256
+  name: aws
+  region: us-east-1
+  runtime: nodejs12.x
+  timeout: 60
+service: timeservice

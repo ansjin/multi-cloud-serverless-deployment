@@ -1,0 +1,104 @@
+version: 0.1
+providers:
+  openwhisk:
+    ow_cluster1:
+      auth:
+        ow_auth: 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
+        ow_api_host:
+        ow_apigw_access_token: hello
+      path: ./Functions/nodeinfo/openwhisk/
+      meta:
+        service_name: myservice
+        memory: 256
+        timeout: 60
+      phases:
+        init:
+          commands:
+            - npm install
+        post_init:
+          commands:
+            - serverless deploy
+        delete:
+          commands:
+            - serverless remove
+    ow_cluster2:
+      auth:
+        ow_auth: 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
+        ow_api_host:
+        ow_apigw_access_token: APIGW_ACCESS_TOKEN
+      path: ./Functions/nodeinfo/openwhisk/
+      meta:
+        service_name: myservice
+        memory: 256
+        timeout: 60
+      phases:
+        init:
+          commands:
+            - npm install
+        post_init:
+          commands:
+            - serverless deploy
+        delete:
+          commands:
+            - serverless remove
+  google:
+    gcf_cluster:
+      auth:
+        type: service_account
+        project_id: long-walker-228011
+        private_key_id: ""
+        private_key: ""
+        client_email: ""
+        client_id: ""
+        auth_uri: ""
+        token_uri: ""
+        auth_provider_x509_cert_url: ""
+        client_x509_cert_url: ""
+      path: ./Functions/nodeinfo/gcf/
+      meta:
+        service_name: myservice
+        memory: 256
+        timeout: 60
+        region: us-central-1
+      phases:
+        init:
+          commands:
+            - npm install
+        post_init:
+          commands:
+            - serverless deploy
+        delete:
+          commands:
+            - serverless remove
+
+  aws:
+    aws_cluster:
+      auth:
+        aws_access_key_id: hhjj
+        aws_secret_access_key: jjj
+      path: ./Functions/nodeinfo/aws/
+      meta:
+        service_name: myservice
+        memory: 256
+        timeout: 60
+        region: us-east-1
+      phases:
+        init:
+          commands:
+            - npm install
+        post_init:
+          commands:
+            - serverless deploy
+        delete:
+          commands:
+            - serverless remove
+
+
+phases:
+    install:
+        commands:
+            - npm install -g serverless@1.20.2
+    post_install:
+        commands:
+            - cd Backend
+            - serverless deploy --region eu-west-1 --verbose

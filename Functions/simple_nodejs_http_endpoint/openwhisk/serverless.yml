@@ -1,0 +1,18 @@
+service: my_service # NOTE: update this with your service name
+
+provider:
+  name: openwhisk
+  ignore_certs: true
+  memory: 256
+  timeout: 60
+
+functions:
+  time:
+    handler: handler.time
+    events:
+      - http: GET /time
+    overwrite: true # Can we overwrite deployed function?
+
+# remember to run npm install to download the provider plugin.        
+plugins:
+    - serverless-openwhisk

@@ -1,0 +1,18 @@
+functions:
+  nodeinfo:
+    events:
+    - http: GET /nodeinfo
+    handler: main
+package:
+  exclude:
+  - .gitignore
+  - .git/**
+plugins:
+- serverless-google-cloudfunctions
+provider:
+  credentials: ./config.json
+  memorySize: 256
+  name: google
+  project: long-walker-228011
+  timeout: 60s
+service: myservice
