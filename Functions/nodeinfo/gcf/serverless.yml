@@ -1,3 +1,4 @@
+frameworkVersion: '2'
 functions:
   nodeinfo:
     events:
@@ -10,9 +11,12 @@ package:
 plugins:
 - serverless-google-cloudfunctions
 provider:
+  allowUnauthenticated: true
   credentials: ./config.json
   memorySize: 256
   name: google
   project: long-walker-228011
+  region: us-central-1
+  runtime: nodejs10
   timeout: 60s
 service: myservice

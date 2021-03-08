@@ -12,7 +12,7 @@ exports.main = (request, response) => {
     fs.readFile("/etc/hostname", "utf8", (err, data) => {
 
         if(err){
-            reject({payload:  err})
+           response.status(400).send(err);
         }else{
             let val = "";
             val += "Hostname: " + data + "\n";
@@ -22,7 +22,7 @@ exports.main = (request, response) => {
 
             val += "Uptime: " + os.uptime() + "\n";
 
-            if (params && params.length && params.indexOf("verbose") > -1) {
+            if (request && request.length && request.indexOf("verbose") > -1) {
                 val += util.inspect(os.cpus()) + "\n";
                 val += util.inspect(os.networkInterfaces())+ "\n";
             }

@@ -12,7 +12,10 @@ One can use this tool for deploying the function(s) to more than one platform wi
 1. Firstly, install <a href="https://nodejs.org/en/download/"> npm</a>.
 2. Install python packages ``` pip install -r requirements.txt```
 3. Install <a href="https://github.com/serverless/serverless">Serverless Framework</a> framework  ``` npm install -g serverless```
-
+4. Install following NPM plugins: 
+    1. ``` npm install -g serverless-google-cloudfunctions``` 
+    2. ``` npm install -g serverless-openwhisk``` 
+    3. Do setup glcoud if you are using GCF as it s required for allowing unauthenticated invocations.
 ## Setup 
 1. Clone the repository
 2. Rename ```config-sample.yaml``` to ```config.yaml```. 
@@ -61,13 +64,16 @@ python3 main.py
  -o <OW provider_list separated by comma> 
  -g <GCF provider_list separated by comma>
  -l <AWS provider_list separated by comma> 
+ -m <for saving functions meta data in a file> 
  -d <for deploying> 
  -r <for removing>
  ```
+Note that: With  ```-m ```, the functions meta information will be saved to  ```./MetaInfo/<testname>.json ```.
+
 
 For example, 
-1. deploying only GCF cluster: ``` python3 main.py -c ./config.yaml -g gcf_cluster -d ```
-2. Deploying Multiple OW and GCF: ``` python3 main.py -c ./config.yaml -o ow_cluster1, ow_cluster2 -g gcf_cluster -d ```
+1. Deploying only GCF cluster with meta information save: ``` python3 main.py -c ./config.yaml -g gcf_cluster -d -m```
+2. Deploying Multiple OW and GCF: ``` python3 main.py -c ./config.yaml -o ow_cluster1, ow_cluster2 -g gcf_cluster -d -m```
 3. For deploying all clusters: ``` python3 main.py -c ./config.yaml -a -d ```
 4. For removing all clusters: ``` python3 main.py -c ./config.yaml -r -d ```
 

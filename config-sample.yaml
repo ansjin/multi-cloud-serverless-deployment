@@ -1,4 +1,5 @@
 version: 0.1
+name: test1
 providers:
   openwhisk:
     ow_cluster1:
@@ -67,6 +68,7 @@ providers:
         post_init:
           commands:
             - serverless deploy
+            - gcloud functions add-iam-policy-binding <service_name>-dev-<function_name> --member=allUsers --role=roles/cloudfunctions.invoker
         delete:
           commands:
             - serverless remove

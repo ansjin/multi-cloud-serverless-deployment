@@ -1,0 +1,29 @@
+{
+    "nodeinfo": [
+        {
+            "memory": 256,
+            "timeout": 60,
+            "cluster_name": "ow_cluster1",
+            "endpoint": ""
+        },
+        {
+            "memory": 256,
+            "timeout": 60,
+            "cluster_name": "ow_cluster2",
+            "endpoint": ""
+        },
+        {
+            "memory": 256,
+            "timeout": "60s",
+            "cluster_name": "gcf_cluster",
+            "endpoint": ""
+        },
+        {
+            "memory": 256,
+            "timeout": 60,
+            "endpoint": "",
+            "provider": "aws",
+            "cluster_name": "aws_cluster"
+        }
+    ]
+}

@@ -1,11 +1,11 @@
 functions:
   nodeinfo:
     events:
-      - http: GET /nodeinfo
+    - http: GET /nodeinfo
     handler: handler.main
     overwrite: true
 plugins:
-  - serverless-openwhisk
+- serverless-openwhisk
 provider:
   ignore_certs: true
   memory: 256
