@@ -4,19 +4,22 @@
             "memory": 256,
             "timeout": 60,
             "cluster_name": "ow_cluster1",
-            "endpoint": ""
+            "endpoint": "",
+            "provider": "openwhisk"
         },
         {
             "memory": 256,
             "timeout": 60,
             "cluster_name": "ow_cluster2",
-            "endpoint": ""
+            "endpoint": "",
+            "provider": "openwhisk"
         },
         {
             "memory": 256,
             "timeout": "60s",
             "cluster_name": "gcf_cluster",
-            "endpoint": ""
+            "endpoint": "",
+            "provider": "google"
         },
         {
             "memory": 256,

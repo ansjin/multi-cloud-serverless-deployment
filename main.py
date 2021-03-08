@@ -85,7 +85,8 @@ def get_function_meta(configfile: str, provider: str, providers_list: list = Non
                                         "cluster_name": cluster,
                                         "endpoint": "https://" + curr_cluster["auth"]["ow_api_host"] +
                                                     "/api/v1/web/guest/default/" +
-                                                    data_serverless_yaml['service'] + "-dev-" + function
+                                                    data_serverless_yaml['service'] + "-dev-" + function,
+                                        "provider": provider
                                     }
                                 elif provider == "google":
                                     function_meta = {
@@ -96,7 +97,8 @@ def get_function_meta(configfile: str, provider: str, providers_list: list = Non
                                             "region"] + "-" +
                                                     data_serverless_yaml["provider"]["project"] +
                                                     ".cloudfunctions.net/" +
-                                                    data_serverless_yaml['service'] + "-dev-" + function
+                                                    data_serverless_yaml['service'] + "-dev-" + function,
+                                        "provider": provider
                                     }
                                 functions_meta.append({function: function_meta})
 
@@ -128,7 +130,8 @@ def get_function_meta(configfile: str, provider: str, providers_list: list = Non
                                                 "cluster_name": cluster_name,
                                                 "endpoint": "https://" + curr_cluster["auth"]["ow_api_host"] +
                                                             "/api/v1/web/guest/default/" +
-                                                            data_serverless_yaml['service'] + "-dev-" + function
+                                                            data_serverless_yaml['service'] + "-dev-" + function,
+                                                "provider": provider
                                             }
                                         elif provider == "google":
                                             function_meta = {
@@ -139,7 +142,8 @@ def get_function_meta(configfile: str, provider: str, providers_list: list = Non
                                                     "region"] + "-" +
                                                             data_serverless_yaml["provider"]["project"] +
                                                             ".cloudfunctions.net/" +
-                                                            data_serverless_yaml['service'] + "-dev-" + function
+                                                            data_serverless_yaml['service'] + "-dev-" + function,
+                                                "provider": provider
                                             }
                                         functions_meta.append({function: function_meta})
 
