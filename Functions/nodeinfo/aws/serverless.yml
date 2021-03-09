@@ -11,4 +11,4 @@ provider:
   region: us-east-1
   runtime: nodejs12.x
   timeout: 60
-service: myservice
+service: myservice1

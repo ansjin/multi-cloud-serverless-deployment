@@ -12,6 +12,7 @@ from Clusters import GoogleDeployment
 from Clusters import AWSDeployment
 
 functions_meta = []
+logs_file = "Logs/log.log"
 
 
 async def deploy_to_clusters(configfile: str, provider: str, cluster_obj: BaseDeployment = None,
@@ -71,10 +72,22 @@ def get_function_meta(configfile: str, provider: str, providers_list: list = Non
 
                             for function in data_serverless_yaml["functions"]:
                                 if provider == "aws":
+                                    with open(logs_file) as f:
+                                        content = f.readlines()
+
+                                    func_endpoint = ""
+
+                                    for line in content:
+                                        if data_serverless_yaml["provider"]["region"] + ".amazonaws.com/dev/" + function in line:
+                                            func_endpoint = line
+                                            func_endpoint = func_endpoint.split('- ')[1]
+                                            func_endpoint = func_endpoint.replace('\n', '')
+                                            break
+
                                     function_meta = {
                                         "memory": data_serverless_yaml["provider"]["memorySize"],
                                         "timeout": data_serverless_yaml["provider"]["timeout"],
-                                        "endpoint": "",
+                                        "endpoint": func_endpoint,
                                         "provider": provider,
                                         "cluster_name": cluster
                                     }
@@ -116,10 +129,23 @@ def get_function_meta(configfile: str, provider: str, providers_list: list = Non
 
                                     for function in data_serverless_yaml["functions"]:
                                         if provider == "aws":
+                                            with open(logs_file) as f:
+                                                content = f.readlines()
+
+                                            func_endpoint = ""
+
+                                            for line in content:
+                                                if data_serverless_yaml["provider"]["region"] + ".amazonaws.com/dev/" \
+                                                        + function in line:
+                                                    func_endpoint = line
+                                                    func_endpoint = func_endpoint.split('- ')[1]
+                                                    func_endpoint = func_endpoint.replace('\n', '')
+                                                    break
+
                                             function_meta = {
                                                 "memory": data_serverless_yaml["provider"]["memorySize"],
                                                 "timeout": data_serverless_yaml["provider"]["timeout"],
-                                                "endpoint": "",
+                                                "endpoint": func_endpoint,
                                                 "provider": provider,
                                                 "cluster_name": cluster_name
                                             }

@@ -6,12 +6,12 @@ functions:
     handler: main
 package:
   exclude:
+  - node_modules/**
   - .gitignore
   - .git/**
 plugins:
 - serverless-google-cloudfunctions
 provider:
-  allowUnauthenticated: true
   credentials: ./config.json
   memorySize: 256
   name: google
