@@ -8,6 +8,9 @@ providers:
         ow_api_host:
         ow_apigw_access_token: hello
       path: ./Functions/nodeinfo/openwhisk/
+      monitoring:
+        openwhisk: ""
+        kubernetes: ""
       meta:
         service_name: myservice
         memory: 256
@@ -28,6 +31,9 @@ providers:
         ow_api_host:
         ow_apigw_access_token: APIGW_ACCESS_TOKEN
       path: ./Functions/nodeinfo/openwhisk/
+      monitoring:
+        openwhisk: ""
+        kubernetes: ""
       meta:
         service_name: myservice
         memory: 256
@@ -95,6 +101,16 @@ providers:
           commands:
             - serverless remove
 
+influxdb:
+  auth:
+    username: root
+    password: root
+  hostinfo:
+    host: localhost
+    port: 8086
+  database:
+    dbname: demo2
+    protocol: line
 
 phases:
     install:

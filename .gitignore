@@ -397,3 +397,6 @@ Logs/
 # Serverless directories
 .serverless/
 config.yaml
+Clusters/Google/config.json
+MetaInfo/*
+Functions/nodeinfo/gcf/config.json

@@ -10,21 +10,21 @@
         {
             "memory": 256,
             "timeout": 60,
-            "cluster_name": "lrz_cluster",
-            "endpoint": "https://138.246.235.35:31001/api/v1/web/guest/default/myservice-dev-nodeinfo",
+            "cluster_name": "invasic_cluster",
+            "endpoint": "https://172.24.65.11:31001/api/v1/web/guest/default/myservice-dev-nodeinfo",
             "provider": "openwhisk"
         },
         {
             "memory": 256,
             "timeout": "60s",
             "cluster_name": "gcf_cluster",
-            "endpoint": "https://us-central-1-long-walker-228011.cloudfunctions.net/myservice-dev-nodeinfo",
+            "endpoint": "https://us-central1-long-walker-228011.cloudfunctions.net/mytestservicegcf1-dev-nodeinfo",
             "provider": "google"
         },
         {
             "memory": 256,
             "timeout": 60,
-            "endpoint": "https://2zfak0qtrc.execute-api.us-east-1.amazonaws.com/dev/nodeinfo",
+            "endpoint": "https://f8q64oh2mi.execute-api.us-east-1.amazonaws.com/dev/nodeinfo",
             "provider": "aws",
             "cluster_name": "aws_cluster"
         }

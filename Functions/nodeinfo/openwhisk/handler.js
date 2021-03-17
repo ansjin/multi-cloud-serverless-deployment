@@ -10,7 +10,7 @@ let util = require('util');
 
 function main(params) {
     return new Promise(function(resolve, reject) {
-        fs.readFile("/etc/hostname", "utf8", (err, data) => {
+        fs.readFile("/proc/cpuinfo", "utf8", (err, data) => {
 
             if(err){
                 reject({payload:  err})

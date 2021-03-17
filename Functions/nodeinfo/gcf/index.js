@@ -9,7 +9,7 @@ let fs = require('fs');
 let util = require('util');
 
 exports.main = (request, response) => {
-    fs.readFile("/etc/hostname", "utf8", (err, data) => {
+    fs.readFile("/proc/cpuinfo", "utf8", (err, data) => {
 
         if(err){
            response.status(400).send(err);

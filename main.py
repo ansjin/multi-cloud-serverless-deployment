@@ -10,6 +10,9 @@ from Clusters import BaseDeployment
 from Clusters import OpenWhiskDeployment
 from Clusters import GoogleDeployment
 from Clusters import AWSDeployment
+from Clusters import BaseCollector
+from Clusters import GCFCollector
+from datetime import datetime
 
 functions_meta = []
 logs_file = "Logs/log.log"
@@ -31,6 +34,33 @@ async def deploy_to_clusters(configfile: str, provider: str, cluster_obj: BaseDe
                         curr_cluster = data['providers'][provider][cluster]
                         if cluster_name == cluster:
                             await cluster_obj.deploy(curr_cluster, curr_cluster['path'])
+                            break
+        except yaml.YAMLError as exc:
+            print(exc)
+
+
+async def collect_from_clusters(configfile: str, provider: str, cluster_collector_obj: BaseCollector = None,
+                       providers_list: list = None, all_clusters: bool = False):
+    with open(configfile, 'r') as stream:
+        try:
+            data = yaml.safe_load(stream)
+            if all_clusters:
+                for cluster in data['providers'][provider]:
+                    curr_cluster = data['providers'][provider][cluster]
+                    dt = datetime.now()
+                    seconds = int(dt.strftime('%s'))
+                    df = await cluster_collector_obj.collect(curr_cluster, cluster, seconds - 2*60*60, seconds)
+                    print(df)
+
+            else:
+                for cluster_name in providers_list:
+                    for cluster in data['providers'][provider]:
+                        curr_cluster = data['providers'][provider][cluster]
+                        if cluster_name == cluster:
+                            dt = datetime.now()
+                            seconds = int(dt.strftime('%s'))
+                            df = await cluster_collector_obj.collect(curr_cluster, cluster_name, seconds - 2*60*60, seconds)
+                            print(df)
                             break
         except yaml.YAMLError as exc:
             print(exc)
@@ -186,6 +216,7 @@ async def main(argv):
     openwhisk_obj = OpenWhiskDeployment()
     google_obj = GoogleDeployment()
     aws_obj = AWSDeployment()
+    google_data_collector = GCFCollector()
     configfile = ''
     all_providers = False
     ow_providers_list = []
@@ -194,17 +225,18 @@ async def main(argv):
     deployment = False
     remove = False
     meta = False
+    collect = False
 
     try:
-        arguments, values = getopt.getopt(argv, "hc:ao:g:l:drm", ["help", "configfile=", "all_providers",
+        arguments, values = getopt.getopt(argv, "hc:ao:g:l:drtm", ["help", "configfile=", "all_providers",
                                                                  "ow_providers_list=", "gcf_providers_list=",
                                                                  "aws_providers_list=",
-                                                                 "deploy", "remove", "get_meta_data"])
+                                                                 "deploy", "remove", "collect", "get_meta_data"])
     except getopt.GetoptError:
         print('main.py -c <configfile path> -a <for all providers> '
               '-o <OW provider_list separated by comma> -g <GCF provider_list separated by comma>  '
               '-l <AWS provider_list separated by comma> -m <for saving functions meta data in a file>'
-              '-d <for deploying> -r <for removing>')
+              '-d <for deploying> -r <for removing> -t <for collecting data>')
         sys.exit(2)
 
     for current_argument, current_value in arguments:
@@ -212,7 +244,7 @@ async def main(argv):
             print('python3 main.py \n -c <configfile path> \n -a <for all providers> '
                   '\n -o <OW provider_list separated by comma> \n -g <GCF provider_list separated by comma>'
                   '\n -l <AWS provider_list separated by comma> \n -m <for saving functions meta data in a file> '
-                  '\n -d <for deploying> \n -r <for removing>')
+                  '\n -d <for deploying> \n -r <for removing> \n -t <for collecting data>')
         elif current_argument in ("-c", "--configfile"):
             configfile = current_value
         elif current_argument in ("-a", "--all_providers"):
@@ -221,6 +253,8 @@ async def main(argv):
             deployment = True
         elif current_argument in ("-r", "--remove"):
             remove = True
+        elif current_argument in ("-t", "--collect"):
+            collect = True
         elif current_argument in ("-o", "--ow_providers_list"):
             all_arguments = current_value.split(',')
             ow_providers_list = all_arguments
@@ -269,6 +303,12 @@ async def main(argv):
             )
         )
 
+    elif collect:
+        tasks.append(
+            asyncio.create_task(
+                collect_from_clusters(configfile, 'google', google_data_collector, gcf_providers_list, all_providers)
+            )
+        )
 
     # wait for all workers
     if len(tasks):
