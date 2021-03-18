@@ -400,3 +400,4 @@ config.yaml
 Clusters/Google/config.json
 MetaInfo/*
 Functions/nodeinfo/gcf/config.json
+Clusters/AWS/test.py

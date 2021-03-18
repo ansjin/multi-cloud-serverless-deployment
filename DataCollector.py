@@ -8,6 +8,7 @@ import asyncio
 from Clusters import BaseCollector
 from Clusters import GCFCollector
 from Clusters import OpenWhiskCollector
+from Clusters import AWSCollector
 from datetime import datetime
 from InfluxDBWriter import InfluxDBWriter
 
@@ -32,6 +33,7 @@ async def collect_from_clusters(configfile: str, provider: str, influx_db_writer
                                                    data['providers'][provider][cluster]["monitoring"]['kubernetes']
                                                    )
                     df = await cluster_collector_obj.collect(curr_cluster, cluster, seconds - 1*60, seconds)
+                    print(df)
                     influx_db_writer_obj.write_dataframe_influxdb(df)
 
             else:
@@ -58,18 +60,26 @@ async def main(argv):
 
     ow_data_collector = OpenWhiskCollector()
 
+    aws_data_collector = AWSCollector()
+
     influx_db_writer_obj = InfluxDBWriter("config.yaml")
     tasks: List[asyncio.Task] = []
 
+    # tasks.append(
+    #     asyncio.create_task(
+    #         collect_from_clusters("config.yaml", 'google', influx_db_writer_obj, google_data_collector, [], True)
+    #     )
+    # )
+    # tasks.append(
+    #     asyncio.create_task(
+    #         collect_from_clusters("config.yaml", 'openwhisk', influx_db_writer_obj, ow_data_collector,
+    #                               ["invasic_cluster", "rbg_cluster"], False)
+    #     )
+    # )
+
     tasks.append(
         asyncio.create_task(
-            collect_from_clusters("config.yaml", 'google', influx_db_writer_obj, google_data_collector, [], True)
-        )
-    )
-    tasks.append(
-        asyncio.create_task(
-            collect_from_clusters("config.yaml", 'openwhisk', influx_db_writer_obj, ow_data_collector,
-                                  ["invasic_cluster", "rbg_cluster"], False)
+            collect_from_clusters("config.yaml", 'aws', influx_db_writer_obj, aws_data_collector, [], True)
         )
     )
     # wait for all workers

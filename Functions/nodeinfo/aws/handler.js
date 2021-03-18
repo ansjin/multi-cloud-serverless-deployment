@@ -29,7 +29,7 @@ module.exports.main = (event, context, callback) => {
 
             val += "Uptime: " + os.uptime() + "\n";
 
-            if (params && params.length && params.indexOf("verbose") > -1) {
+            if (context && context.length && context.indexOf("verbose") > -1) {
                 val += util.inspect(os.cpus()) + "\n";
                 val += util.inspect(os.networkInterfaces()) + "\n";
             }

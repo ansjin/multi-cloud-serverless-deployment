@@ -5,3 +5,4 @@ from .Google import GoogleDeployment
 from .AWS import AWSDeployment
 from .Google import GCFCollector
 from .OpenWhisk import OpenWhiskCollector
+from .AWS import AWSCollector
