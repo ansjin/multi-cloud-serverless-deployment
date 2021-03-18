@@ -65,18 +65,16 @@ async def main(argv):
     influx_db_writer_obj = InfluxDBWriter("config.yaml")
     tasks: List[asyncio.Task] = []
 
-    # tasks.append(
-    #     asyncio.create_task(
-    #         collect_from_clusters("config.yaml", 'google', influx_db_writer_obj, google_data_collector, [], True)
-    #     )
-    # )
-    # tasks.append(
-    #     asyncio.create_task(
-    #         collect_from_clusters("config.yaml", 'openwhisk', influx_db_writer_obj, ow_data_collector,
-    #                               ["invasic_cluster", "rbg_cluster"], False)
-    #     )
-    # )
-
+    tasks.append(
+        asyncio.create_task(
+            collect_from_clusters("config.yaml", 'google', influx_db_writer_obj, google_data_collector, [], True)
+        )
+    )
+    tasks.append(
+        asyncio.create_task(
+            collect_from_clusters("config.yaml", 'openwhisk', influx_db_writer_obj, ow_data_collector, [], True)
+        )
+    )
     tasks.append(
         asyncio.create_task(
             collect_from_clusters("config.yaml", 'aws', influx_db_writer_obj, aws_data_collector, [], True)
